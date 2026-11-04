@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Everything after the # in the address stays on this phone: browsers never send it to any
+     server. This page loads nothing from anywhere and stores nothing. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>Shelv-Einladung</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f2f2f7; --surface: #fff; --text: #000; --quiet: #6c6c70; --accent: #0a6cff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #000; --surface: #1c1c1e; --text: #fff; --quiet: #98989f; --accent: #3d8bff; }
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0; min-height: 100dvh; background: var(--bg); color: var(--text);
+    font: 100%/1.4 system-ui, -apple-system, Roboto, sans-serif;
+    padding: max(48px, env(safe-area-inset-top)) 20px 24px;
+    display: flex; justify-content: center;
+  }
+  main { width: 100%; max-width: 440px; }
+  .mark {
+    width: 64px; height: 64px; border-radius: 15px; background: var(--accent);
+    display: grid; place-items: center; margin-bottom: 20px;
+  }
+  h1 { font-size: 2.125rem; line-height: 1.12; letter-spacing: -.02em; margin: 0 0 10px; }
+  p { color: var(--quiet); margin: 0 0 24px; }
+  .host {
+    background: var(--surface); border-radius: 14px; padding: 14px; margin-bottom: 18px;
+    font-weight: 600; overflow-wrap: anywhere;
+  }
+  .host small { display: block; font-weight: 400; color: var(--quiet); margin-bottom: 2px; }
+  a.button, button {
+    display: block; width: 100%; border: 0; border-radius: 14px; text-align: center;
+    padding: 15px; font: 600 1.0625rem/1.3 inherit; font-family: inherit; text-decoration: none;
+    background: var(--accent); color: #fff; cursor: pointer;
+    transition: transform 100ms ease-out, opacity 100ms ease-out;
+  }
+  a.button:active, button:active { transform: scale(.97); opacity: .72; }
+  button.quiet { background: none; color: var(--accent); font-weight: 400; margin-top: 4px; }
+  .hint { margin: 22px 0 0; font-size: .875rem; }
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    a.button, button { transition: opacity 100ms ease-out; }
+    a.button:active, button:active { transform: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="mark" aria-hidden="true">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="#fff"><path d="M3 4.5A1.5 1.5 0 0 1 4.5 3h15A1.5 1.5 0 0 1 21 4.5V7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4.5ZM4 9.5h16V19a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9.5Zm5 2.5a.8.8 0 0 0 0 1.6h6a.8.8 0 0 0 0-1.6H9Z"/></svg>
+  </div>
+
+  <div id="ok" hidden>
+    <h1>Du bist eingeladen</h1>
+    <p>Öffne die Einladung in der Shelv-App, um deine Dateien sicher zu speichern.</p>
+    <div class="host"><small>Diese Einladung verbindet dich mit</small><span id="host"></span></div>
+    <a class="button" id="open">In Shelv öffnen</a>
+    <button class="quiet" id="copy" type="button">Link kopieren</button>
+    <p class="hint">Noch keine App? Frag die Person, die dich eingeladen hat. Danach tippst du den Link einfach noch einmal an, oder du fügst ihn in der App ein.</p>
+  </div>
+
+  <div id="bad" hidden>
+    <h1>Das hat nicht geklappt</h1>
+    <p>Dieser Link ist unvollständig. Bitte die Person, die dich eingeladen hat, um einen neuen.</p>
+  </div>
+</main>
+<script>
+  var hash = location.hash.slice(1);
+  var params = new URLSearchParams(hash);
+  var valid = params.get('v') === '1' && params.get('code') && params.get('host') &&
+    /^[0-9a-f]{64}$/i.test(params.get('fp') || '') && /^\d+$/.test(params.get('port') || '');
+  if (valid) {
+    var link = 'shelv://join?' + hash;
+    // Takes the code out of the address bar and browser history.
+    history.replaceState(null, '', location.pathname);
+    document.getElementById('host').textContent = params.get('host');
+    document.getElementById('open').href = link;
+    document.getElementById('ok').hidden = false;
+    var copy = document.getElementById('copy');
+    copy.onclick = function () {
+      navigator.clipboard.writeText(link).then(function () { copy.textContent = 'Kopiert'; });
+    };
+  } else {
+    document.getElementById('bad').hidden = false;
+  }
+</script>
+</body>
+</html>

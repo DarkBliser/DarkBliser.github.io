@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "io.github.darkbliser.shelv",
+    "sha256_cert_fingerprints": ["11:5E:6F:AE:37:C2:85:2E:E0:5F:4A:E6:C3:88:18:1E:05:4B:35:0E:52:63:0C:1F:07:00:35:F3:C0:0B:AE:9F"]
+  }
+}]
