@@ -8,3 +8,6 @@ server, so GitHub doesn't see it either.
 
 `.well-known/assetlinks.json` tells Android that these links belong to the Shelv app, so tapping
 one can open the app directly. It only contains the public fingerprint of the app's signature.
+
+`datenschutz/` is Shelv's privacy policy (German, then English). Google Play needs its address:
+`https://darkbliser.github.io/datenschutz/`. Update its date when the content changes.
