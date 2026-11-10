@@ -3,6 +3,9 @@
   "target": {
     "namespace": "android_app",
     "package_name": "io.github.darkbliser.shelv",
-    "sha256_cert_fingerprints": ["11:5E:6F:AE:37:C2:85:2E:E0:5F:4A:E6:C3:88:18:1E:05:4B:35:0E:52:63:0C:1F:07:00:35:F3:C0:0B:AE:9F"]
+    "sha256_cert_fingerprints": [
+      "25:A3:10:91:70:43:33:49:2C:DF:CA:99:1B:F8:B0:DA:65:55:56:50:0E:41:A8:A9:4B:E4:65:44:01:3D:70:B5",
+      "11:5E:6F:AE:37:C2:85:2E:E0:5F:4A:E6:C3:88:18:1E:05:4B:35:0E:52:63:0C:1F:07:00:35:F3:C0:0B:AE:9F"
+    ]
   }
 }]
